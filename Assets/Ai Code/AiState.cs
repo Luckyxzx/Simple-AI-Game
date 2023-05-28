@@ -17,25 +17,24 @@ public class AiState : MonoBehaviour
     // set the max range of which the ai will follow me
     private float maxRange = 8.5f;
 
-    // Start is called before the first frame update
-    void Start()
+    // calling upon start before the first frame update
+    protected virtual void Start()
     {
         aiMovement = GetComponent<AiMovement>();
         // enable input
         InputSystem.EnableDevice(Keyboard.current);
 
-        //
+        // sets currentme to me (player)
         currentMe = me;
     }
     
-    
-    // Update is called once per frame
-    void Update()
+    // calling upon the update once per frame
+    protected virtual void Update()
     {
         // check if target is in range if so
         if (Vector3.Distance(transform.position, me.position) < maxRange)
         {
-            //Debug.Log(" Target Locked to");
+            //Debug.Log(" Target Locked ");
             // set the target for the ai
             aiMovement.SetMe(currentMe);
             currentMe = me.transform;
@@ -49,10 +48,13 @@ public class AiState : MonoBehaviour
             
         }
 
-        //check for Arrow Key pressed
+
+        // this code sole purpose is to use for testing nothing else really
+        // check for Arrow Key pressed P
         if (Keyboard.current.pKey.wasPressedThisFrame)       
         {
             // set current me to null
+            // once p is pressed the ai will start running towards player with the max range of 20 and pressing it again will set the range back to default
             if (currentMe == null)
             {
                 SetMe(me);
@@ -68,6 +70,7 @@ public class AiState : MonoBehaviour
 
     }
 
+    // sets me to me
     public void SetMe(Transform me)
     {
         currentMe = me;
